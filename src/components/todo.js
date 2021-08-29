@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const initialValues = {item:''};
 
-function ToDoList({itemList,setItemList}) {
+function ToDoList({itemList,setItemList,completedItemList,setCompletedItemList}) {
 
     const[item,setItem] = useState(initialValues);
 
@@ -13,17 +13,40 @@ function ToDoList({itemList,setItemList}) {
 
     const onClick = () => {
         setItemList([...itemList,item]);
+        setItem(initialValues);
     }
-    
+
+    const onChangeCheckBox = (e) => {
+        setCompletedItemList([...completedItemList,{[e.target.name]:e.target.value}]);
+        itemList.forEach((element,i) => {
+            if(element.item === e.target.value){
+                itemList.splice(i,1);
+            }
+        });
+    }
+
+    const onEnter = (e) => {
+        if(e.charCode === 13){
+            setItemList([...itemList,item]);
+            setItem(initialValues);
+        }
+    }
+
 
     return (
         <div>
-            <input name='item' value={item.item} onChange={onChange}/>
-            <button onClick={onClick}>Add</button>
+            <input name='item' value={item.item} onChange={onChange} onKeyPress={onEnter}/>
+            <div className="btn">
+                <button onClick={onClick}>Add</button>
+            </div>
             <hr/>
-            <ul>
+            <ul className="list">
+                <h2>Tasks</h2>
                 {
-                itemList.map((item,i) => <div key={i}>{item.item}</div>)
+                itemList.map((item,i) => <li key={i}>
+                    {item.item}
+                    <input name='item' type="checkbox" value={item.item} onChange={onChangeCheckBox}></input>
+                    </li>)
                 }
             </ul>
         </div>

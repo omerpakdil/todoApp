@@ -5,11 +5,26 @@ import { useState } from 'react';
 function App() {
 
   const [itemList,setItemList] = useState([]);
+  const [completedItemList,setCompletedItemList] = useState([]);
+
+  console.log(itemList);
+  console.log(completedItemList);
 
   return (
-    <div>
-      <ToDoList itemList={itemList} setItemList={setItemList}/>
-      <CompletedToDo />
+    <div id="container">
+      <h1 className="header1">todo</h1>
+      <ToDoList 
+      itemList={itemList} 
+      setItemList={setItemList}
+      completedItemList={completedItemList} 
+      setCompletedItemList={setCompletedItemList}
+      />
+      <CompletedToDo
+      itemList={itemList} 
+      setItemList={setItemList}
+      completedItemList={completedItemList}
+      setCompletedItemList={setCompletedItemList}
+      />
     </div>
   );
 }
